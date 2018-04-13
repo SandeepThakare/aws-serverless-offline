@@ -1,0 +1,36 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es6": true,
+        "jest": false
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "globals": {
+        "process": false,
+        "no-redeclare": false
+    },
+    "rules": {
+        "no-console":0,
+        "no-process-env": 0,
+        "indent": [
+            "error",
+            "tab"
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
+    }
+}
