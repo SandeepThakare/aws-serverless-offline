@@ -8,15 +8,15 @@ class ValidationUtils{
 		this.v = new Validator();
 
 		const schema = {
-			"id": "/Taco",
-			"type": "object",
-			"properties": {
-				"name": {"type": "string"},
-				"description": {"type": "string"}
+			'id': '/Taco',
+			'type': 'object',
+			'properties': {
+				'name': {'type': 'string'},
+				'description': {'type': 'string'}
 			},
-			"required": ["name"],
-			"additionalProperties": false
-		}
+			'required': ['name'],
+			'additionalProperties': false
+		};
 
 		this.v.addSchema(schema, '/Taco');
 	}
@@ -27,7 +27,7 @@ class ValidationUtils{
 			var validation = this.v.validate(object, schema);
 			if(validation.errors.length > 0){
 				console.log(validation);
-				reject(validation.errors)
+				reject(validation.errors);
 			}
 			else{
 				resolve();
