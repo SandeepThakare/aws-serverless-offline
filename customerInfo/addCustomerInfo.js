@@ -1,8 +1,14 @@
 
 'use strict';
 const AWS = require('aws-sdk');
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
-AWS.config.update({region:'us-east-1'});
+// const dynamoDb = new AWS.DynamoDB.DocumentClient({
+// 	region: 'localhost',
+// 	endpoint: 'http://localhost:3000'
+// });
+
+const dynamoDb = require('./dynamodb');
+
+AWS.config.update({ region: process.env.region });
 
 module.exports.addCustomerInfo = (event, context, callback) => {
 	var eventData = {};
@@ -13,10 +19,19 @@ module.exports.addCustomerInfo = (event, context, callback) => {
 	console.log('Event body=', JSON.stringify(event.body));
 	console.log('Event body=', typeof (event.body));
 
+	console.log('Region - ', AWS.config.region);
 
-	if (event.body && typeof(event.body)=== 'string') {
+	if (!AWS.config.region) {
+		AWS.config.update({
+			region: process.env.region
+		});
+	}
+
+	console.log('Region - ', AWS.config.region);
+
+	if (event.body && typeof (event.body) === 'string') {
 		eventData = JSON.parse(event.body);
-	}else{
+	} else {
 		eventData = event.body;
 	}
 
@@ -26,7 +41,7 @@ module.exports.addCustomerInfo = (event, context, callback) => {
 
 	console.log('Event DATA=', email);
 
-	if ((!eventData.email)) {
+	if (!eventData.email) {
 
 		const response = {
 			statusCode: 406,
@@ -43,18 +58,20 @@ module.exports.addCustomerInfo = (event, context, callback) => {
 		return;
 	}
 
-	var addCustomerInfo = {
+	var params = {
 		TableName: process.env.CUSTOMER_INFO,
-		Item:{
-			'email': email,
-			'created_at': createdAt,
-			'customerData': eventData 
-		}
+		Item: {
+			email: email,
+			created_at: createdAt,
+			customerData: eventData
+		},
 	};
 
-	dynamoDb.put(addCustomerInfo, function(err, data) {
-		console.log('inside - ', addCustomerInfo);
-		if(!err){
+	console.log(params);
+
+	dynamoDb.put(params, (err, data) => {
+		// console.log('inside - ', addCustomerInfoParams);
+		if (!err) {
 			console.log('Data - ', data);
 			const response = {
 				statusCode: 200,
@@ -83,7 +100,5 @@ module.exports.addCustomerInfo = (event, context, callback) => {
 			};
 			callback(null, response);
 		}
-
 	});
-	
 };

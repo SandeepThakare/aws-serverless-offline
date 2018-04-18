@@ -1,5 +1,8 @@
 const AWS = require('aws-sdk');
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const dynamoDb = new AWS.DynamoDB.DocumentClient({
+	region: 'localhost',
+	endpoint: 'http://localhost:8000'
+});
 // const lambda = new AWS.Lambda();
 
 module.exports.getCustomerInfo = (event, context, callback) => {
@@ -14,7 +17,7 @@ module.exports.getCustomerInfo = (event, context, callback) => {
 				'Access-Control-Allow-Headers': '*',
 				'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT'
 			},
-			body: 'Email Missing'
+			body: JSON.stringify('Email Missing'),
 		};
 		callback(null, res);
 		return;
@@ -25,9 +28,23 @@ module.exports.getCustomerInfo = (event, context, callback) => {
 		TableName: process.env.CUSTOMER_INFO,
 		KeyConditionExpression: 'email = :em',
 		ExpressionAttributeValues: {
-			':em': email,
+			':em': decodeURIComponent(email)
 		}
 	};
+
+	// var getAppMarketParams = {
+	// 	TableName: process.env.APPLICATION_MARKET,
+	// 	KeyConditionExpression: 'application_id = :id',
+	// 	ExpressionAttributeValues: {
+	// 		':id': parseInt(applicationId)
+	// 	}
+	// };
+
+	// var scanParams = {
+	// 	TableName: process.env.CUSTOMER_INFO
+	// };
+
+	console.log('Query params - ', queryParams);
 
 	dynamoDb.query(queryParams, onQuery);
 
@@ -37,29 +54,14 @@ module.exports.getCustomerInfo = (event, context, callback) => {
 			console.error('Unable to scan the table. Error JSON:', JSON.stringify(err, null, 2));
 			onError(err);
 		} else {
-			console.log('data', data);
+			console.log('data in customer', data);
 			if (data.Items.length) {
 				// var subscribersArr = data.Items[0].email;
 				console.log('firstarr ', data.Items);
 				// delete data.Items[0].createdAt
 				// console.log('after delete ',data.Items[0].createdAt);
-				var custData = data.Items[0];
+				var custData = data.Items;
 				// onSuccess(data.Items[0]);
-				if (custData.userdata.properties_owned) {
-					for (var index = 0; index < custData.userdata.properties_owned.length; index++) {
-						// var element = array[index];
-
-						console.log('length=', custData.userdata.properties_owned.length);
-
-						if (custData.userdata.properties_owned[index].deleted === true) {
-							// delete custData.userdata.properties_owned[index];
-							custData.userdata.properties_owned.splice(index, 1);
-							index--;
-						}
-						console.log('After delete = ', custData);
-					}
-				}
-
 				onSuccess(custData);
 
 			} else {
