@@ -18,5 +18,5 @@ COPY . .
 EXPOSE 8080
 
 CMD [ "sls", "dynamodb", "start", "-p", "8000", "--migrate", "true"]
-CMD [ "sls", "offline", "start", "-r", "us-east-1", "--noTimeout"]
+# CMD [ "sls", "offline", "start", "-r", "us-east-1", "--noTimeout"]
 # sls offline start -r us-east-1 --noTimeout
