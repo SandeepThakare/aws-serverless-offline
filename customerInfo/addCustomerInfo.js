@@ -1,12 +1,12 @@
 
 'use strict';
 const AWS = require('aws-sdk');
-// const dynamoDb = new AWS.DynamoDB.DocumentClient({
-// 	region: 'localhost',
-// 	endpoint: 'http://localhost:3000'
-// });
+const dynamoDb = new AWS.DynamoDB.DocumentClient({
+	region: 'localhost',
+	endpoint: 'http://localhost:8000'
+});
 
-const dynamoDb = require('./dynamodb');
+// const dynamoDb = require('./dynamodb');
 
 AWS.config.update({ region: process.env.region });
 
@@ -16,10 +16,10 @@ module.exports.addCustomerInfo = (event, context, callback) => {
 	// var dbUserData;
 	// var customerdatalength;
 	// var id = null;
-	console.log('Event body=', JSON.stringify(event.body));
-	console.log('Event body=', typeof (event.body));
+	// console.log('Event body=', JSON.stringify(event.body));
+	// console.log('Event body=', typeof (event.body));
 
-	console.log('Region - ', AWS.config.region);
+	// console.log('Region - ', AWS.config.region);
 
 	if (!AWS.config.region) {
 		AWS.config.update({
@@ -27,7 +27,7 @@ module.exports.addCustomerInfo = (event, context, callback) => {
 		});
 	}
 
-	console.log('Region - ', AWS.config.region);
+	// console.log('Region - ', AWS.config.region);
 
 	if (event.body && typeof (event.body) === 'string') {
 		eventData = JSON.parse(event.body);
@@ -39,7 +39,7 @@ module.exports.addCustomerInfo = (event, context, callback) => {
 	// var userdata = {};
 	// userdata = eventData;
 
-	console.log('Event DATA=', email);
+	// console.log('Event DATA=', email);
 
 	if (!eventData.email) {
 
@@ -59,7 +59,7 @@ module.exports.addCustomerInfo = (event, context, callback) => {
 	}
 
 	var params = {
-		TableName: process.env.CUSTOMER_INFO,
+		TableName: 'customer-info',
 		Item: {
 			email: email,
 			created_at: createdAt,
@@ -67,12 +67,12 @@ module.exports.addCustomerInfo = (event, context, callback) => {
 		},
 	};
 
-	console.log(params);
+	// console.log(params);
 
 	dynamoDb.put(params, (err, data) => {
 		// console.log('inside - ', addCustomerInfoParams);
 		if (!err) {
-			console.log('Data - ', data);
+			// console.log('Data - ', data);
 			const response = {
 				statusCode: 200,
 				headers: {
@@ -87,7 +87,7 @@ module.exports.addCustomerInfo = (event, context, callback) => {
 			};
 			callback(null, response);
 		} else {
-			console.log(err);
+			// console.log(err);
 
 			const response = {
 				statusCode: 401,

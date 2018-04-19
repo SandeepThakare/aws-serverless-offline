@@ -1,47 +1,52 @@
-var expect = require('chai').expect;
+require('dotenv').load();
+// var expect = require('chai').expect;
+// var LambdaTester = require('lambda-tester');
+var getCustomerInfo = require('../../customerInfo/getCustomerInfo').getCustomerInfo;
+var assert = require('chai').assert;
+// var should = require('chai').should();
 
-var LambdaTester = require('lambda-tester');
+describe('getCustomerInfo test', function () {
 
-var getCustomerInfo = require('../../customerInfo/getCustomerInfo');
-
-describe('myLambda', function () {
-
-	[
-		{
-			
-		}
-
-	].forEach(function (validName) {
-
-		it('successful invocation: name=' + validName,
-			function (done) {
-
-				LambdaTester(getCustomerInfo.getCustomerInfo)
-					.event({ name: validName })
-					.expectSucceed(function (result) {
-						expect(result.valid).to.be.true;
-					})
-					.verify(done);
-			});
+	it('successful invocation: getCustomer function', function (done) {
+		var event = {
+			'pathParameters': {'email':'sandythakare9@gmail.com'}
+		};
+		var context = {};
+		var callback =(ctx, data) => {
+			try{
+				console.log('test data -', data);
+				// console.log(data.body.message, data.statusCode);
+				assert(data);
+				assert(data.statusCode == 200);
+				done();
+			}
+			catch (err){
+				console.log('error', err);
+				done(err);
+			}
+		};
+		getCustomerInfo(event, context, callback);
 	});
-
-	[
-		'Fred',
-		undefined
-
-	].forEach(function (invalidName) {
-
-		it('fail: when name is invalid: name=' + invalidName,
-			function (done) {
-
-				LambdaTester(getCustomerInfo.getCustomerInfo)
-					.event({ name: invalidName })
-					.expectFail(function (err) {
-
-						expect(err.message).to
-							.equal('unknown name');
-					})
-					.verify(done);
-			});
+    
+	it('successful invocation: getCustomer 2 function', function (done) {
+		var event = {
+			'pathParameters': {'email':'sandythakare9'}
+		};
+		var context = {};
+		var callback =(ctx, data) => {
+			try{
+				// console.log('test data -', data);
+				// console.log(JSON.parse(data.body), data.statusCode);
+				// let bodydata = JSON.parse(data.body);
+				// assert(data.body === 'Invalid Email');
+				assert(data.statusCode == 406);
+				done();
+			}
+			catch (err){
+				console.log('error', err);
+				done(err);
+			}
+		};
+		getCustomerInfo(event, context, callback);
 	});
 });
