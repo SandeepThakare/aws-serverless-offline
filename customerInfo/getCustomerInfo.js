@@ -9,7 +9,7 @@ module.exports.getCustomerInfo = (event, context, callback) => {
 
 	console.log('path par');
 
-	var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	var emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 
 	if (!event.pathParameters && !event.pathParameters.email) {
@@ -26,19 +26,19 @@ module.exports.getCustomerInfo = (event, context, callback) => {
 		return;
 	}
 
-	if (!emailRegex.test(event.pathParameters.email)) {
-		var response = {
-			statusCode: 406,
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Access-Control-Allow-Headers': '*',
-				'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT'
-			},
-			body: JSON.stringify('Invalid Email'),
-		};
-		callback(null, response);
-		return;
-	}
+	// if (!emailRegex.test(event.pathParameters.email)) {
+	// 	var response = {
+	// 		statusCode: 406,
+	// 		headers: {
+	// 			'Access-Control-Allow-Origin': '*',
+	// 			'Access-Control-Allow-Headers': '*',
+	// 			'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT'
+	// 		},
+	// 		body: JSON.stringify('Invalid Email'),
+	// 	};
+	// 	callback(null, response);
+	// 	return;
+	// }
 
 	var email = event.pathParameters.email;
 	console.log('email', email);

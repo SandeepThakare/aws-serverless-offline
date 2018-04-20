@@ -5,7 +5,7 @@
   "main": "handler.js",
   "scripts": {
     "install:offline": "docker pull lambci/lambda",
-    "test": "mocha handler.test --compilers js:babel-core/register",
+    "test": "mocha **/*.test.js",
     "setup": "./node_modules/.bin/sls config credentials --provider aws --key KEY --secret SECRET",
     "start": "./node_modules/.bin/sls offline start -r us-east-1 --noTimeout --corsDisallowCredentials false",
     "install:dynamodb": "./node_modules/.bin/sls dynamodb install",
@@ -38,6 +38,7 @@
     "serverless-offline": "^3.20.2",
     "serverless-plugin-simulate": "0.0.10",
     "serverless-webpack": "^1.0.0-rc.4",
+    "supertest": "^3.0.0",
     "webpack-node-externals": "^1.7.2"
   }
 }
