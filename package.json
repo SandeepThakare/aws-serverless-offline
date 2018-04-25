@@ -15,12 +15,10 @@
   "author": "Sandeep Thakare",
   "license": "ISC",
   "dependencies": {
-    "auth0": "^2.9.1",
     "babel": "^6.23.0",
     "bluebird": "^3.5.1",
     "dotenv": "^2.0.0",
-    "serverless-dynamodb-client": "0.0.2",
-    "uuid": "^3.2.1"
+    "serverless-dynamodb-client": "0.0.2"
   },
   "devDependencies": {
     "aws-sdk": "^2.224.1",

@@ -1,4 +1,6 @@
-FROM node:latest
+FROM node:carbon
+
+USER root
 
 ENV http_proxy 127.0.0.1:8000
 ENV https_proxy 127.0.0.1:8000
@@ -11,18 +13,23 @@ WORKDIR /app
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
-COPY package*.json ./
+# COPY package*.json ./
+ADD package.json package.json
 
 # Copy the current directory contents into the container at /app
 ADD . /app
-ADD . /database/dir
+# ADD . /database/dir
 
 RUN npm install
 # If you are building your code for production
 # RUN npm install --only=production
 
 #Add jdk dependancy
-RUN apk --update add openjdk7-jre
+# ENV DEBIAN_FRONTEND=noninteractive
+# ENV SERVERLESS serverless@{{ version }}
+
+# RUN apt-get update \
+#     && apt-get install -y default-jre
 
 #Install serverless dependancy
 RUN npm install serverless -g

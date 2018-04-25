@@ -2,7 +2,7 @@ require('dotenv').load();
 const request = require('supertest');
 // var expect = require('chai').expect;
 // var LambdaTester = require('lambda-tester');
-var getCustomerInfo = require('../../customerInfo/getCustomerInfo').getCustomerInfo;
+// var getCustomerInfo = require('../../customerInfo/getCustomerInfo').getCustomerInfo;
 // var assert = require('chai').assert;
 // var should = require('chai').should();
 
