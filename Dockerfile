@@ -1,49 +1,40 @@
 FROM node:carbon
 
-USER root
-
-ENV http_proxy 127.0.0.1:8000
-ENV https_proxy 127.0.0.1:8000
-
-# RUN apt-get update
-
 # Create app directory
 WORKDIR /app
-
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-# COPY package*.json ./
-ADD package.json package.json
-
-# Copy the current directory contents into the container at /app
-ADD . /app
-# ADD . /database/dir
-
-RUN npm install
-# If you are building your code for production
-# RUN npm install --only=production
 
 #Add jdk dependancy
 # ENV DEBIAN_FRONTEND=noninteractive
 # ENV SERVERLESS serverless@{{ version }}
 
-# RUN apt-get update \
-#     && apt-get install -y default-jre
+#Install default jre for serverless-offline
+RUN apt-get update \
+    && apt-get install -y default-jre
 
 #Install serverless dependancy
 RUN npm install serverless -g
 
-#Install dynamodb locally
-RUN sls dynamodb install --stage dev
+# Install app dependencies
+COPY package*.json ./
 
-# RUN export PATH=/usr/local/bin:$PATH
+#Install packages from package.json
+RUN npm install
 
 # Bundle app source
 COPY . .
 
-EXPOSE 8000
+#Install dynamodb locally
+RUN sls dynamodb install --stage dev
 
-CMD [ "sls", "dynamodb", "start", "-p", "8000", "--migrate", "true", "--stage", "dev"]
+#Proxy setup only for ubuntu
+# ENV http_proxy 0.0.0.0:8000
+# ENV https_proxy 0.0.0.0:8000
+
+#Ready 8000 port for run
+# EXPOSE 8000
+EXPOSE 3000
+
+# Command for run dynamodb offline
+CMD [ "sls", "offline", "start", "-r", "us-east-1", "--noTimeout", "--stage", "dev" ]
 # CMD [ "sls", "offline", "start", "-r", "us-east-1", "--noTimeout"]
 # sls offline start -r us-east-1 --noTimeout
