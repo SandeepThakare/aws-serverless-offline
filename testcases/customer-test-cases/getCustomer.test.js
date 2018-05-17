@@ -1,4 +1,4 @@
-require('dotenv').load();
+// require('dotenv').load();
 const request = require('supertest');
 // var expect = require('chai').expect;
 // var LambdaTester = require('lambda-tester');
