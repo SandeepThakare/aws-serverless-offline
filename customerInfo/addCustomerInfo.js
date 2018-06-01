@@ -1,18 +1,16 @@
 
 'use strict';
 const AWS = require('aws-sdk');
-const dynamoDb = new AWS.DynamoDB.DocumentClient({
-	region: 'localhost',
-	endpoint: 'http://localhost:8000'
-});
+const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 // const dynamoDb = require('./dynamodb');
 
-AWS.config.update({ region: process.env.region });
+// AWS.config.update({ region: process.env.region });
 
 module.exports.addCustomerInfo = (event, context, callback) => {
 	var eventData = {};
 	var createdAt = new Date().toUTCString();
+	console.log('Inside');
 	// var dbUserData;
 	// var customerdatalength;
 	// var id = null;
@@ -21,11 +19,11 @@ module.exports.addCustomerInfo = (event, context, callback) => {
 
 	// console.log('Region - ', AWS.config.region);
 
-	if (!AWS.config.region) {
-		AWS.config.update({
-			region: process.env.region
-		});
-	}
+	// if (!AWS.config.region) {
+	// 	AWS.config.update({
+	// 		region: process.env.region
+	// 	});
+	// }
 
 	// console.log('Region - ', AWS.config.region);
 

@@ -6,9 +6,7 @@ provider:
   region: us-east-1
   stage: dev
   environment:
-    TESTNUM: 27
-    TESTSTR: hello
-    CUSTOMER_INFO: customer-info
+    CUSTOMER_INFO: "customer-info-new"
 
   iamRoleStatements:
     - Effect: Allow
@@ -21,13 +19,50 @@ provider:
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.CUSTOMER_INFO}"
 
+    - Effect: "Allow"
+      Action:
+        - lambda:InvokeFunction
+        - lambda:InvokeAsync
+      Resource: "arn:aws:lambda:us-east-1:*:*"
+
+functions:
+  addCustomerInfo:
+    name: ${opt:stage}-addCustomerInfo
+    handler: customerInfo/addCustomerInfo.addCustomerInfo
+    events:
+      - http: 
+          path: addCustomerInfo
+          method: PUT 
+          cors: true
+          # integration: lambda
+          # authorizer: 
+          #   name: authorizer
+          #   arn: arn:aws:cognito-idp:us-east-1:047841562770:userpool/us-east-1_yCqvXvqtp
+          #   claims: 
+          #     - email
+
+  getCustomerInfo:
+    name: ${opt:stage}-getCustomerInfo
+    handler: customerInfo/getCustomerInfo.getCustomerInfo
+    events:
+      - http: 
+          path: getCustomerInfo/{email}
+          method: GET
+          cors: true
+          # integration: lambda
+          # authorizer: 
+          #   name: authorizer
+          #   arn: arn:aws:cognito-idp:us-east-1:047841562770:userpool/us-east-1_yCqvXvqtp
+          #   claims: 
+          #   - email
+
 resources:
   Resources:
-    customer-info:
+    customerInfoNew:
         Type: AWS::DynamoDB::Table
         DeletionPolicy: Retain
         Properties:
-          TableName: customer-info
+          TableName: customer-info-new
           AttributeDefinitions:
             - AttributeName: email
               AttributeType: S
@@ -54,40 +89,7 @@ resources:
           WriteCapacityUnits: 1
         TableName: TacoGallery
 
-functions:
-  addCustomerInfo:
-      name: ${opt:stage}-addCustomerInfo
-      handler: customerInfo/addCustomerInfo.addCustomerInfo
-      events:
-        - http: 
-            path: addCustomerInfo
-            method: PUT 
-            cors: true
-            # integration: lambda
-            # authorizer: 
-            #   name: authorizer
-            #   arn: arn:aws:cognito-idp:us-east-1:047841562770:userpool/us-east-1_yCqvXvqtp
-            #   claims: 
-            #     - email
-
-  getCustomer:
-      name: ${opt:stage}-getCustomerInfo
-      handler: customerInfo/getCustomerInfo.getCustomerInfo
-      events:
-        - http: 
-            path: getCustomerInfo/{email}
-            method: GET
-            cors: true
-            # integration: lambda
-            # authorizer: 
-            #   name: authorizer
-            #   arn: arn:aws:cognito-idp:us-east-1:047841562770:userpool/us-east-1_yCqvXvqtp
-            #   claims: 
-            #   - email
-
 plugins:
-  - serverless-dynamodb-local
-  - serverless-offline
   - serverless-webpack
 
 custom:
