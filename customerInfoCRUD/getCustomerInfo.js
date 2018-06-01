@@ -1,8 +1,5 @@
 const AWS = require('aws-sdk');
-const dynamoDb = new AWS.DynamoDB.DocumentClient({
-	region: 'localhost',
-	endpoint: 'http://localhost:8000'
-});
+const dynamoDb = new AWS.DynamoDB.DocumentClient();
 // const lambda = new AWS.Lambda();
 
 module.exports.getCustomerInfo = (event, context, callback) => {
@@ -43,10 +40,10 @@ module.exports.getCustomerInfo = (event, context, callback) => {
 	var email = event.pathParameters.email;
 	console.log('email', email);
 	var queryParams = {
-		TableName: 'customer-info',
+		TableName: process.env.CUSTOMER_INFO,
 		KeyConditionExpression: 'email = :em',
 		ExpressionAttributeValues: {
-			':em': decodeURIComponent(email)
+			':em': email
 		}
 	};
 
@@ -58,13 +55,35 @@ module.exports.getCustomerInfo = (event, context, callback) => {
 	// 	}
 	// };
 
-	// var scanParams = {
-	// 	TableName: process.env.CUSTOMER_INFO
-	// };
+	var scanParams = {
+		TableName: process.env.CUSTOMER_INFO
+	};
 
 	console.log('Query params - ', queryParams);
 
-	dynamoDb.query(queryParams, onQuery);
+	dynamoDb.scan(scanParams, (err, data) => {
+		console.log('Inside', JSON.stringify(queryParams));
+		if (err) {
+			console.error('Unable to scan the table. Error JSON:', JSON.stringify(err, null, 2));
+			onError(err);
+		} else {
+			console.log('data in customer', data);
+			if (data.Items.length) {
+				// var subscribersArr = data.Items[0].email;
+				console.log('firstarr ', data.Items);
+				// delete data.Items[0].createdAt
+				// console.log('after delete ',data.Items[0].createdAt);
+				var custData = data.Items;
+				// onSuccess(data.Items[0]);
+				console.log('CustData - ', custData);
+				onSuccess(custData);
+
+			} else {
+				console.log('No Customer');
+				onSuccess('No customer added');
+			}
+		}
+	});
 
 	function onQuery(err, data) {
 		console.log('Inside', JSON.stringify(queryParams));
@@ -80,9 +99,11 @@ module.exports.getCustomerInfo = (event, context, callback) => {
 				// console.log('after delete ',data.Items[0].createdAt);
 				var custData = data.Items;
 				// onSuccess(data.Items[0]);
+				console.log('CustData - ', custData);
 				onSuccess(custData);
 
 			} else {
+				console.log('No Customer');
 				onSuccess('No customer added');
 			}
 		}
@@ -111,6 +132,9 @@ module.exports.getCustomerInfo = (event, context, callback) => {
 			},
 			body: JSON.stringify(response)
 		};
+
+		console.log(res);
+
 		callback(null, res);
 	}
 };

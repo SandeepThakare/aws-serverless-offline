@@ -28,7 +28,7 @@ provider:
 functions:
   addCustomerInfo:
     name: ${opt:stage}-addCustomerInfo
-    handler: customerInfo/addCustomerInfo.addCustomerInfo
+    handler: customerInfoCRUD/addCustomerInfo.addCustomerInfo
     events:
       - http: 
           path: addCustomerInfo
@@ -43,7 +43,7 @@ functions:
 
   getCustomerInfo:
     name: ${opt:stage}-getCustomerInfo
-    handler: customerInfo/getCustomerInfo.getCustomerInfo
+    handler: customerInfoCRUD/getCustomerInfo.getCustomerInfo
     events:
       - http: 
           path: getCustomerInfo/{email}
@@ -91,6 +91,7 @@ resources:
 
 plugins:
   - serverless-webpack
+  - serverless-offline
 
 custom:
   webpackIncludeModules:

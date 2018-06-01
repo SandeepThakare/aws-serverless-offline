@@ -124,10 +124,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/taco-gallery/dev/1527828769919-2018-06-01T04:52:49.919Z/taco-gallery.zip"
+          "S3Key": "serverless/taco-gallery/dev/1527831635163-2018-06-01T05:40:35.163Z/taco-gallery.zip"
         },
         "FunctionName": "dev-addCustomerInfo",
-        "Handler": "customerInfo/addCustomerInfo.addCustomerInfo",
+        "Handler": "customerInfoCRUD/addCustomerInfo.addCustomerInfo",
         "MemorySize": 1024,
         "Role": {
           "Fn::GetAtt": [
@@ -148,14 +148,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "AddCustomerInfoLambdaVersionMFfkrN9ZOhJsFKHl0q3RIrFlTumYqr766yr54s4": {
+    "AddCustomerInfoLambdaVersion5vX8OijdNO6bX3t3dSeVfbqNQ0iDXPFnWJmA9Qxkk": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AddCustomerInfoLambdaFunction"
         },
-        "CodeSha256": "KpKEz3bq6Qn5Z/sZWrO+YqV/UgSksy4cwals9TeIG1s="
+        "CodeSha256": "nqG0ptFOIVMOUEj/gyguGL1L+pzkRpVHLdfkw/wvV4E="
       }
     },
     "GetCustomerInfoLambdaFunction": {
@@ -165,10 +165,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/taco-gallery/dev/1527828769919-2018-06-01T04:52:49.919Z/taco-gallery.zip"
+          "S3Key": "serverless/taco-gallery/dev/1527831635163-2018-06-01T05:40:35.163Z/taco-gallery.zip"
         },
         "FunctionName": "dev-getCustomerInfo",
-        "Handler": "customerInfo/getCustomerInfo.getCustomerInfo",
+        "Handler": "customerInfoCRUD/getCustomerInfo.getCustomerInfo",
         "MemorySize": 1024,
         "Role": {
           "Fn::GetAtt": [
@@ -189,14 +189,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "GetCustomerInfoLambdaVersionGLsuiXSzC9slfmWVmdNe3zm53xnQLAU08m9vUlL18": {
+    "GetCustomerInfoLambdaVersionUJ68PvHyNFCB6kmS3BhcRSI8fCoaoyUCPSkLZaA9Bw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetCustomerInfoLambdaFunction"
         },
-        "CodeSha256": "KpKEz3bq6Qn5Z/sZWrO+YqV/UgSksy4cwals9TeIG1s="
+        "CodeSha256": "nqG0ptFOIVMOUEj/gyguGL1L+pzkRpVHLdfkw/wvV4E="
       }
     },
     "ApiGatewayRestApi": {
@@ -430,7 +430,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1527828770110": {
+    "ApiGatewayDeployment1527831635178": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -592,13 +592,13 @@
     "AddCustomerInfoLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AddCustomerInfoLambdaVersionMFfkrN9ZOhJsFKHl0q3RIrFlTumYqr766yr54s4"
+        "Ref": "AddCustomerInfoLambdaVersion5vX8OijdNO6bX3t3dSeVfbqNQ0iDXPFnWJmA9Qxkk"
       }
     },
     "GetCustomerInfoLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetCustomerInfoLambdaVersionGLsuiXSzC9slfmWVmdNe3zm53xnQLAU08m9vUlL18"
+        "Ref": "GetCustomerInfoLambdaVersionUJ68PvHyNFCB6kmS3BhcRSI8fCoaoyUCPSkLZaA9Bw"
       }
     },
     "ServiceEndpoint": {

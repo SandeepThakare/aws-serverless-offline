@@ -57,7 +57,7 @@ module.exports.addCustomerInfo = (event, context, callback) => {
 	}
 
 	var params = {
-		TableName: 'customer-info',
+		TableName: process.env.CUSTOMER_INFO,
 		Item: {
 			email: email,
 			created_at: createdAt,

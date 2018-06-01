@@ -18,6 +18,8 @@
     "babel": "^6.23.0",
     "bluebird": "^3.5.1",
     "dotenv": "^2.0.0",
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2",
     "serverless-dynamodb-client": "0.0.2"
   },
   "devDependencies": {
@@ -35,7 +37,7 @@
     "serverless-dynamodb-local": "^0.2.28",
     "serverless-offline": "^3.20.2",
     "serverless-plugin-simulate": "0.0.10",
-    "serverless-webpack": "^1.0.0-rc.4",
+    "serverless-webpack": "^3.0.0-rc.1",
     "supertest": "^3.0.0",
     "webpack-node-externals": "^1.7.2"
   }
