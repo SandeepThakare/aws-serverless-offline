@@ -47,7 +47,7 @@ export default class common {
 	}
 }
 
-export function callbackHandler(statusCode, message) {
+export function callbackHandler(statusCode, message, callback) {
 	let res =  {
 		StatusCode: statusCode,
 		headers: {
@@ -58,5 +58,5 @@ export function callbackHandler(statusCode, message) {
 		body: JSON.stringify(message)
 	};
 
-	return res;
+	callback(null, res);
 }

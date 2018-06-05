@@ -83,7 +83,7 @@ export function getCustomerInfo (event, context, callback){
 			} else {
 				console.log('No Customer');
 				// onSuccess('No customer added');
-				callback(null, callbackHandler(statusCode.OK, 'No customer added'));
+				callback(null, callbackHandler(statusCode.OK, 'No customer added', callback));
 				return;
 			}
 		}
@@ -104,7 +104,9 @@ export function getCustomerInfo (event, context, callback){
 				var custData = data.Items;
 				// onSuccess(data.Items[0]);
 				console.log('CustData - ', custData);
-				onSuccess(custData);
+				// onSuccess(custData);
+				callbackHandler(statusCode.OK, custData, callback);
+				return;
 
 			} else {
 				console.log('No Customer');
