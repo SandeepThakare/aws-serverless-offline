@@ -76,6 +76,7 @@ module.exports.getCustomerInfo = async (event, context, callback) => {
 				console.log('CustData - ', custData);
 				let res = a.callbackHandler(statusCode.OK, custData)
 				// callback(null, );
+				console.log(res);
 				onSuccess(res);
 				return;
 
@@ -137,6 +138,7 @@ module.exports.getCustomerInfo = async (event, context, callback) => {
 		// };
 
 		// console.log(res);
+		console.log(response);
 
 		callback(null, response);
 	}
