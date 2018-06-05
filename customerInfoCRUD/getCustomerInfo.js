@@ -6,7 +6,7 @@ import StatusCode from '../common/statusCode';
 let statusCode = new StatusCode().getStatusCode();
 // const lambda = new AWS.Lambda();
 
-module.exports.getCustomerInfo = async (event, context, callback) => {
+export function getCustomerInfo (event, context, callback){
 
 	console.log('path par');
 
