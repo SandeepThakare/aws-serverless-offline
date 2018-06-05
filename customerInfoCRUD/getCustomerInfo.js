@@ -83,7 +83,7 @@ export function getCustomerInfo (event, context, callback){
 			} else {
 				console.log('No Customer');
 				// onSuccess('No customer added');
-				callback(null, await callbackHandler(statusCode.OK, 'No customer added'));
+				callback(null, callbackHandler(statusCode.OK, 'No customer added'));
 				return;
 			}
 		}
