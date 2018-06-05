@@ -9,7 +9,7 @@ export function getCust(event, context, callback) {
 	// console.log('Context ---> ', context);
 	// console.log('callback --->', callback);
 	let a = new Common();
-	let scanParams = new Common().scanParams(process.env.CUSTOMER_INFO || 'customer-info');
+	let scanParams = new Common().scanParams(process.env.CUSTOMER_INFO);
 
 	// return new Promise((resolve, reject) => {
 	// 	console.log(scanParams);
