@@ -5,7 +5,7 @@ import StatusCode from '../common/statusCode';
 let statusCode = new StatusCode().getStatusCode();
 
 export function getCust(event, context, callback) {
-	context.callbackWaitsForEmptyEventLoop = false;
+	// context.callbackWaitsForEmptyEventLoop = false;
 	// console.log('Context ---> ', context);
 	// console.log('callback --->', callback);
 	let a = new Common();

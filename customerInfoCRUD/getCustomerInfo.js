@@ -1,5 +1,9 @@
 const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
+import Common from '../common/common';
+// import AWS from 'aws-sdk';
+import StatusCode from '../common/statusCode';
+let statusCode = new StatusCode().getStatusCode();
 // const lambda = new AWS.Lambda();
 
 module.exports.getCustomerInfo = (event, context, callback) => {
@@ -8,18 +12,11 @@ module.exports.getCustomerInfo = (event, context, callback) => {
 
 	var emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
+	let a = new Common();
+	let scanParams = new Common().scanParams(process.env.CUSTOMER_INFO);
 
 	if (!event.pathParameters && !event.pathParameters.email) {
-		var res = {
-			statusCode: 406,
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Access-Control-Allow-Headers': '*',
-				'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT'
-			},
-			body: JSON.stringify('Email Missing'),
-		};
-		callback(null, res);
+		callback(null, a.callbackHandler(statusCode.BAD_REQUEST, 'Email Missing'));
 		return;
 	}
 
@@ -55,9 +52,9 @@ module.exports.getCustomerInfo = (event, context, callback) => {
 	// 	}
 	// };
 
-	var scanParams = {
-		TableName: process.env.CUSTOMER_INFO
-	};
+	// var scanParams = {
+	// 	TableName: process.env.CUSTOMER_INFO
+	// };
 
 	console.log('Query params - ', queryParams);
 
@@ -65,7 +62,8 @@ module.exports.getCustomerInfo = (event, context, callback) => {
 		console.log('Inside', JSON.stringify(queryParams));
 		if (err) {
 			console.error('Unable to scan the table. Error JSON:', JSON.stringify(err, null, 2));
-			onError(err);
+			callback(null, a.callbackHandler(statusCode.BAD_REQUEST, err));
+			return;
 		} else {
 			console.log('data in customer', data);
 			if (data.Items.length) {
@@ -76,11 +74,15 @@ module.exports.getCustomerInfo = (event, context, callback) => {
 				var custData = data.Items;
 				// onSuccess(data.Items[0]);
 				console.log('CustData - ', custData);
-				onSuccess(custData);
+				callback(null, a.callbackHandler(statusCode.OK, custData));
+				return;
+				// onSuccess(custData);
 
 			} else {
 				console.log('No Customer');
-				onSuccess('No customer added');
+				// onSuccess('No customer added');
+				callback(null, a.callbackHandler(statusCode.OK, 'No customer added'));
+				return;
 			}
 		}
 	});
