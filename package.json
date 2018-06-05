@@ -40,6 +40,7 @@
     "serverless-plugin-simulate": "0.0.10",
     "serverless-webpack": "^3.0.0-rc.1",
     "supertest": "^3.0.0",
-    "webpack-node-externals": "^1.7.2"
+    "webpack-node-externals": "^1.7.2",
+    "webpack": "^4.1.0"
   }
 }
