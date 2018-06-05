@@ -1,6 +1,9 @@
 {
-    "presets": [
-        "es2015",
-        "stage-2"
+    "comments": false,
+    "presets": [ 
+      [ "env", { "node": "6.10" } ]
+    ],
+    "plugins": [
+      "source-map-support"
     ]
-}
+  }
