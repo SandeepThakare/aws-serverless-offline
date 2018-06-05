@@ -74,9 +74,10 @@ module.exports.getCustomerInfo = async (event, context, callback) => {
 				var custData = data.Items;
 				// onSuccess(data.Items[0]);
 				console.log('CustData - ', custData);
-				callback(null, await a.callbackHandler(statusCode.OK, custData));
+				let res = a.callbackHandler(statusCode.OK, custData)
+				// callback(null, );
+				onSuccess(res);
 				return;
-				// onSuccess(custData);
 
 			} else {
 				console.log('No Customer');
@@ -125,18 +126,18 @@ module.exports.getCustomerInfo = async (event, context, callback) => {
 	}
 
 	function onSuccess(response) {
-		const res = {
-			statusCode: 200,
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Access-Control-Allow-Headers': '*',
-				'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT'
-			},
-			body: JSON.stringify(response)
-		};
+		// const res = {
+		// 	statusCode: 200,
+		// 	headers: {
+		// 		'Access-Control-Allow-Origin': '*',
+		// 		'Access-Control-Allow-Headers': '*',
+		// 		'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT'
+		// 	},
+		// 	body: JSON.stringify(response)
+		// };
 
-		console.log(res);
+		// console.log(res);
 
-		callback(null, res);
+		callback(null, response);
 	}
 };
