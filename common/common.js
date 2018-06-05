@@ -46,3 +46,17 @@ export default class common {
 		return params;
 	}
 }
+
+export function callbackHandler(statusCode, message) {
+	let res =  {
+		StatusCode: statusCode,
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Access-Control-Allow-Headers': '*',
+			'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT' 
+		},
+		body: JSON.stringify(message)
+	};
+
+	return res;
+}

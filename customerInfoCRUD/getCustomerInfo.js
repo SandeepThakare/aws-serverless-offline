@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
-import Common from '../common/common';
+import Common, {callbackHandler} from '../common/common';
 // import AWS from 'aws-sdk';
 import StatusCode from '../common/statusCode';
 let statusCode = new StatusCode().getStatusCode();
@@ -62,7 +62,7 @@ module.exports.getCustomerInfo = async (event, context, callback) => {
 		console.log('Inside', JSON.stringify(queryParams));
 		if (err) {
 			console.error('Unable to scan the table. Error JSON:', JSON.stringify(err, null, 2));
-			callback(null, await a.callbackHandler(statusCode.BAD_REQUEST, err));
+			callback(null, callbackHandler(statusCode.BAD_REQUEST, err));
 			return;
 		} else {
 			console.log('data in customer', data);
@@ -74,7 +74,7 @@ module.exports.getCustomerInfo = async (event, context, callback) => {
 				var custData = data.Items;
 				// onSuccess(data.Items[0]);
 				console.log('CustData - ', custData);
-				let res = a.callbackHandler(statusCode.OK, custData)
+				let res = callbackHandler(statusCode.OK, custData)
 				// callback(null, );
 				console.log(res);
 				onSuccess(res);
@@ -83,7 +83,7 @@ module.exports.getCustomerInfo = async (event, context, callback) => {
 			} else {
 				console.log('No Customer');
 				// onSuccess('No customer added');
-				callback(null, await a.callbackHandler(statusCode.OK, 'No customer added'));
+				callback(null, await callbackHandler(statusCode.OK, 'No customer added'));
 				return;
 			}
 		}
