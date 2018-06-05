@@ -6,7 +6,7 @@ import StatusCode from '../common/statusCode';
 let statusCode = new StatusCode().getStatusCode();
 // const lambda = new AWS.Lambda();
 
-module.exports.getCustomerInfo = (event, context, callback) => {
+module.exports.getCustomerInfo = async (event, context, callback) => {
 
 	console.log('path par');
 
@@ -58,11 +58,11 @@ module.exports.getCustomerInfo = (event, context, callback) => {
 
 	console.log('Query params - ', queryParams);
 
-	dynamoDb.scan(scanParams, (err, data) => {
+	dynamoDb.scan(scanParams, async (err, data) => {
 		console.log('Inside', JSON.stringify(queryParams));
 		if (err) {
 			console.error('Unable to scan the table. Error JSON:', JSON.stringify(err, null, 2));
-			callback(null, a.callbackHandler(statusCode.BAD_REQUEST, err));
+			callback(null, await a.callbackHandler(statusCode.BAD_REQUEST, err));
 			return;
 		} else {
 			console.log('data in customer', data);
@@ -74,14 +74,14 @@ module.exports.getCustomerInfo = (event, context, callback) => {
 				var custData = data.Items;
 				// onSuccess(data.Items[0]);
 				console.log('CustData - ', custData);
-				callback(null, a.callbackHandler(statusCode.OK, custData));
+				callback(null, await a.callbackHandler(statusCode.OK, custData));
 				return;
 				// onSuccess(custData);
 
 			} else {
 				console.log('No Customer');
 				// onSuccess('No customer added');
-				callback(null, a.callbackHandler(statusCode.OK, 'No customer added'));
+				callback(null, await a.callbackHandler(statusCode.OK, 'No customer added'));
 				return;
 			}
 		}
