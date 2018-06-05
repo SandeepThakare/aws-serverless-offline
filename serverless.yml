@@ -7,6 +7,7 @@ provider:
   stage: dev
   environment:
     CUSTOMER_INFO: "customer-info-new"
+    IS_OFFLINE: ${opt:is-offline}
 
   iamRoleStatements:
     - Effect: Allow
@@ -47,6 +48,21 @@ functions:
     events:
       - http: 
           path: getCustomerInfo/{email}
+          method: GET
+          cors: true
+          # integration: lambda
+          # authorizer: 
+          #   name: authorizer
+          #   arn: arn:aws:cognito-idp:us-east-1:047841562770:userpool/us-east-1_yCqvXvqtp
+          #   claims: 
+          #   - email
+
+  getCustList:
+    name: ${opt:stage}-getCustList
+    handler: customer/getCust.getCust
+    events:
+      - http: 
+          path: getCustList
           method: GET
           cors: true
           # integration: lambda
