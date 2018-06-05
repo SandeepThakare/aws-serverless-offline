@@ -1,9 +1,1 @@
-{
-    "comments": false,
-    "presets": [ 
-      [ "env", { "node": "6.10" } ]
-    ],
-    "plugins": [
-      "source-map-support"
-    ]
-  }
+{ "presets": ["es2015","stage-2"] }
